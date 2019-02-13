@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
+const URL = 'ws://localhost:3001';
 
 class App extends Component {
 
@@ -28,6 +29,15 @@ class App extends Component {
 
   }
 
+  ws = new WebSocket(URL);
+
+  componentDidMount() {
+    this.ws.onopen = () => {
+      console.log("Connected to WS Server " + URL)
+    }
+  }
+
+
   addNewMessage(newMessageData){
     const oldMessageArray = this.state.messages;
     const newMessage = {
@@ -39,19 +49,6 @@ class App extends Component {
     const newMessageArray = [...oldMessageArray, newMessage];
     this.setState({messages: newMessageArray });
 
-  }
-
-  componentDidMount() {
-    // console.log("componentDidMount <App />");
-    // setTimeout(() => {
-    //   console.log("Simulating incoming message");
-    //   // Add a new message to the list of messages in the data store
-    //   const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
-    //   const messages = this.state.messages.concat(newMessage)
-    //   // Update the state of the app component.
-    //   // Calling setState will trigger a call to render() in App and all child components.
-    //   this.setState({messages: messages})
-    // }, 3000);
   }
   
   render() {
