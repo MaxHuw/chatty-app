@@ -34,7 +34,7 @@ class ChatBar extends Component {
 
             event.target.value = "";
 
-            this.props.addNewMessage(newMessage);
+            this.props.submitMessage(newMessage);
         }
     }
 

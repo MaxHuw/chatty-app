@@ -11,42 +11,41 @@ class App extends Component {
     this.state = 
     {
       currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [
-        {
-          id: 1,
-          username: "Bob",
-          content: "Has anyone seen my marbles?",
-        },
-        {
-          id: 2,
-          username: "Anonymous",
-          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-        }
-      ]
+      messages: []
     }
 
     this.addNewMessage = this.addNewMessage.bind(this);
+    this.submitMessage = this.submitMessage.bind(this);
+
 
   }
 
   ws = new WebSocket(URL);
 
   componentDidMount() {
+
     this.ws.onopen = () => {
       console.log("Connected to WS Server " + URL)
     }
+
+    this.ws.onmessage = event => {
+      console.log("Message recieved from server.")
+      const message = JSON.parse(event.data);
+      this.addNewMessage(message);
+    }
+
   }
 
+  submitMessage(newMessageData){
+    console.log("Sending message to WS server.");
+    this.ws.send(JSON.stringify(newMessageData));
+    console.log("Message sent to WS server.")
+  }
 
   addNewMessage(newMessageData){
     const oldMessageArray = this.state.messages;
-    const newMessage = {
-      id: this.state.messages.length + 1,
-      username: newMessageData.username,
-      content: newMessageData.content
-    }
-    console.log(newMessage);
-    const newMessageArray = [...oldMessageArray, newMessage];
+    console.log(newMessageData);
+    const newMessageArray = [...oldMessageArray, newMessageData];
     this.setState({messages: newMessageArray });
 
   }
@@ -55,7 +54,7 @@ class App extends Component {
     return (
       <div>
         <MessageList messages={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser.name} addNewMessage={this.addNewMessage}/>
+        <ChatBar currentUser={this.state.currentUser.name} submitMessage={this.submitMessage}/>
       </div>
     );
   }
