@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
 
+// const URL = 'ws://172.46.1.187:3001'; Playing around with accessing app over local network.
 const URL = 'ws://localhost:3001';
+
 
 class App extends Component {
 

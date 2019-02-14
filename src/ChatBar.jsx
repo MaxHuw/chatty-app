@@ -19,22 +19,30 @@ class ChatBar extends Component {
         this.setState({comment: event.target.value })
     }
 
-    updateUserName(event){
-        this.setState({username: event.target.value })
-        event.target.value = this.state.username;
+    updateUserName(userName){
+        this.setState({username: userName });
     }
 
     _handleKeyPress = (event) => {
     
-        if (event.key === 'Enter') {
-            const newMessage = {
-                username: this.state.username,
-                content: this.state.comment
+        if (event.key === 'Enter' ) {
+
+            if (event.target.name === "username"){
+                this.updateUserName(event.target.value);
             }
 
-            event.target.value = "";
+            if (event.target.name === "message"){
+               
+                const newMessage = {
+                    username: this.state.username,
+                    content: this.state.comment
+                }
+    
+                event.target.value = "";
+    
+                this.props.submitMessage(newMessage);
+            }
 
-            this.props.submitMessage(newMessage);
         }
     }
 
@@ -42,7 +50,9 @@ class ChatBar extends Component {
         return (
             <footer className="chatbar">
                 {/* <input className="chatbar-username" name="username" placeholder="Your Name (Optional)" value={this.props.currentUser}/> */}
-                <input className="chatbar-username" name="username" placeholder="Your Name (Optional)" onChange={this.updateUserName} value={this.state.username}/>
+                {/* <input className="chatbar-username" name="username" placeholder="Your Name (Optional)" onChange={this.updateUserName} value={this.state.username}/> */}
+
+                <input className="chatbar-username" name="username" placeholder="Your Name (Optional)" onKeyPress={this._handleKeyPress} placeholder="Your name. Hit 'Enter'"/>
                 <input className="chatbar-message" name="message" placeholder="Type a message and hit ENTER" onChange={this.updateMessageState} onKeyPress={this._handleKeyPress} />
             </footer>
         )
