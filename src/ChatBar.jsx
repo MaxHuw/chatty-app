@@ -29,11 +29,19 @@ class ChatBar extends Component {
 
             if (event.target.name === "username"){
                 this.updateUserName(event.target.value);
+
+                const newNotification = {
+                    type: "postNotification",
+                    content: event.target.value
+                }
+
+                this.props.submitNotification(newNotification);
             }
 
             if (event.target.name === "message"){
                
                 const newMessage = {
+                    type: "postMessage",
                     username: this.state.username,
                     content: this.state.comment
                 }
@@ -42,7 +50,6 @@ class ChatBar extends Component {
     
                 this.props.submitMessage(newMessage);
             }
-
         }
     }
 

@@ -30,12 +30,28 @@ class App extends Component {
       console.log("Connected to WS Server " + URL)
     }
 
-    this.ws.onmessage = event => {
+    this.ws.onmessage = (event) => {
       console.log("Message recieved from server.")
-      const message = JSON.parse(event.data);
-      this.addNewMessage(message);
+      const data = JSON.parse(event.data);
+
+      switch(data.type){
+        case "incomingMessage":
+          this.addNewMessage(data);
+          break;
+        case "incomingNotification":
+        //Something
+          break;
+        default:
+          throw new Error("Unknown even type: " + data.type);
+      }
     }
 
+  }
+
+  submitNotification(newNotification){
+    console.log("Sending newUserName to the server.");
+    this.ws.send(JSON.stringify(newNotification));
+    console.log("Notification of new user name sent.");
   }
 
   submitMessage(newMessageData){
@@ -56,7 +72,7 @@ class App extends Component {
     return (
       <div>
         <MessageList messages={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser.name} submitMessage={this.submitMessage}/>
+        <ChatBar currentUser={this.state.currentUser.name} submitMessage={this.submitMessage} submitNotification={this.submitNotification}/>
       </div>
     );
   }
