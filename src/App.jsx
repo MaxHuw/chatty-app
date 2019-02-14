@@ -15,7 +15,7 @@ class App extends Component {
     this.state = 
     { 
       totalUsers: 0,
-      currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
+      currentUser: {name: "Anonymous", userColor: "green"}, // If currentUser is not defined, it means the user is Anonymous
       messages: []
     }
 
@@ -23,6 +23,8 @@ class App extends Component {
     this.submitMessage = this.submitMessage.bind(this);
     this.submitNotification = this.submitNotification.bind(this);
     this.updateUserCount = this.updateUserCount.bind(this);
+    this.assignUserColor = this.assignUserColor.bind(this);
+    this.updateUserName = this.updateUserName.bind(this);
 
   }
 
@@ -49,6 +51,7 @@ class App extends Component {
         case "userConnection":
           console.log("Connection status recieved from server")
           this.updateUserCount(data);
+          this.assignUserColor(data.userColor);
           break;
         default:
           throw new Error("Unknown even type: " + data.type);
@@ -56,6 +59,16 @@ class App extends Component {
     }
 
     
+  }
+
+  assignUserColor(color){
+    console.log(color);
+    this.setState({
+      currentUser:
+      { name: this.state.currentUser.name,
+        userColor: color}
+    })
+    console.log(this.state.currentUser);
   }
 
   submitNotification(newNotification){
@@ -82,13 +95,21 @@ class App extends Component {
     this.setState({totalUsers: newStatus.content});
     console.log("Number of acive users: " + this.state.totalUsers);
   }
+
+  updateUserName(newName){
+    this.setState({
+      currentUser: {
+        name: newName,
+        userColor: state.currentUser.userColor}
+      });
+  }
   
   render() {
     return (
       <div>
         <Navbar activeUsers={this.state.totalUsers}/>
         <MessageList messages={this.state.messages} />
-        <ChatBar currentUser={this.state.currentUser.name} submitMessage={this.submitMessage} submitNotification={this.submitNotification}/>
+        <ChatBar currentUser={this.state.currentUser} updateUserName={this.updateUserName} submitMessage={this.submitMessage} submitNotification={this.submitNotification}/>
       </div>
     );
   }

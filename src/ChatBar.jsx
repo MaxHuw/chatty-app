@@ -6,12 +6,13 @@ class ChatBar extends Component {
         super(props);
 
         this.state = {
-            username: this.props.currentUser,
+            username: this.props.currentUser.name,
+            usernameColor: this.props.currentUser.userColor,
             comment: ''
         }
 
         this.updateMessageState = this.updateMessageState.bind(this);
-        this.updateUserName = this.updateUserName.bind(this);
+        // this.updateUserName = this.updateUserName.bind(this);
 
     }
 
@@ -19,9 +20,9 @@ class ChatBar extends Component {
         this.setState({comment: event.target.value })
     }
 
-    updateUserName(userName){
-        this.setState({username: userName });
-    }
+    // updateUserName(userName){
+    //     this.setState({username: userName });
+    // }
 
     _handleKeyPress = (event) => {
     
@@ -35,7 +36,7 @@ class ChatBar extends Component {
                 }
 
                 this.props.submitNotification(newNotification);
-                this.updateUserName(event.target.value);
+                this.props.updateUserName(event.target.value);
             }
 
             if (event.target.name === "message"){
@@ -43,6 +44,7 @@ class ChatBar extends Component {
                 const newMessage = {
                     type: "postMessage",
                     username: this.state.username,
+                    usernameColor: this.state.usernameColor,
                     content: this.state.comment
                 }
     

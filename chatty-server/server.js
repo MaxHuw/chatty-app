@@ -28,7 +28,8 @@ wss.on('connection', (ws) => {
   
   let connectionNotice = {
     type: "userConnection",
-    content: userCount
+    content: userCount,
+    userColor: "red"
   };
 
   connectionNotice = JSON.stringify(connectionNotice);
