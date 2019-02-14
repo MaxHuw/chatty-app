@@ -1,6 +1,6 @@
 # Chatty App Project
 
-Chatty App is a simple chat application that allows users to comunicate via text messages.
+Chatty App is a simple chat application that allows users to communicate via text messages.
 
 
 ## Final Product
