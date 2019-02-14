@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import MessageList from './MessageList.jsx';
 import ChatBar from './ChatBar.jsx';
+import Navbar from './Navbar.jsx';
+
 
 // const URL = 'ws://172.46.1.187:3001'; Playing around with accessing app over local network.
 const URL = 'ws://localhost:3001';
@@ -46,7 +48,7 @@ class App extends Component {
           break;
         case "userConnection":
           console.log("Connection status recieved from server")
-          this.addNewMessage(data);
+          this.updateUserCount(data);
           break;
         default:
           throw new Error("Unknown even type: " + data.type);
@@ -78,12 +80,13 @@ class App extends Component {
 
   updateUserCount(newStatus){
     this.setState({totalUsers: newStatus.content});
-    console.log(this.state.totalUsers);
+    console.log("Number of acive users: " + this.state.totalUsers);
   }
   
   render() {
     return (
       <div>
+        <Navbar activeUsers={this.state.totalUsers}/>
         <MessageList messages={this.state.messages} />
         <ChatBar currentUser={this.state.currentUser.name} submitMessage={this.submitMessage} submitNotification={this.submitNotification}/>
       </div>
