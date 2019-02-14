@@ -32,6 +32,6 @@ Chatty App is a simple chat application that allows users to comunicate via text
 ## Getting Started
 
 * Install all dependencies (using 'npm install' command).
-* Run the WbSocket server from inside the chatty-server folder by running "npm start".
+* Run the WebSocket server from inside the chatty-server folder by running "npm start".
 * Run the local server from inside the chatty-app folder by running "npm start".
 
