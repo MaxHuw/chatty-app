@@ -11,14 +11,16 @@ class App extends Component {
   constructor(props) {
     super();
     this.state = 
-    {
-      currentUser: {name: "Bob"}, // optional. if currentUser is not defined, it means the user is Anonymous
+    { 
+      totalUsers: 0,
+      currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
       messages: []
     }
 
     this.addNewMessage = this.addNewMessage.bind(this);
     this.submitMessage = this.submitMessage.bind(this);
     this.submitNotification = this.submitNotification.bind(this);
+    this.updateUserCount = this.updateUserCount.bind(this);
 
   }
 
@@ -42,10 +44,16 @@ class App extends Component {
           console.log("Notification recieved from server.")
           this.addNewMessage(data);
           break;
+        case "userConnection":
+          console.log("Connection status recieved from server")
+          this.addNewMessage(data);
+          break;
         default:
           throw new Error("Unknown even type: " + data.type);
       }
     }
+
+    
   }
 
   submitNotification(newNotification){
@@ -66,7 +74,11 @@ class App extends Component {
     const newMessageArray = [...oldMessageArray, newMessageData];
     this.setState({messages: newMessageArray });
     console.log(this.state.messages);
+  }
 
+  updateUserCount(newStatus){
+    this.setState({totalUsers: newStatus.content});
+    console.log(this.state.totalUsers);
   }
   
   render() {

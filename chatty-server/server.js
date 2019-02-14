@@ -7,6 +7,9 @@ const uuidv1 = require('uuid/v1');
 // Set the port to 3001
 const PORT = 3001;
 
+//
+let userCount = 0;
+
 // Create a new express server
 const server = express()
    // Make the express server serve static assets (html, javascript, css) from the /public folder
@@ -20,10 +23,38 @@ const wss = new SocketServer({ server });
 // When a client connects they are assigned a socket, represented by
 // the ws parameter in the callback.
 wss.on('connection', (ws) => {
+  userCount ++;
   console.log('Client connected');
+  
+  let connectionNotice = {
+    type: "userConnection",
+    content: userCount
+  };
+
+  connectionNotice = JSON.stringify(connectionNotice);
+  
+  wss.clients.forEach(client => {
+    client.send(connectionNotice);
+  })
 
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
-  ws.on('close', () => console.log('Client disconnected'));
+  ws.on('close', () => {
+    userCount --;
+    console.log('Client disconnected')
+  
+    let connectionNotice = {
+      type: "userConnection",
+      content: userCount
+    };
+
+    connectionNotice = JSON.stringify(connectionNotice);
+
+    wss.clients.forEach(client => {
+      client.send(connectionNotice);
+    })
+  
+
+  });
 
   ws.on('message', function incoming(data){
     console.log(data);

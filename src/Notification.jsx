@@ -4,7 +4,7 @@ class Notification extends Component {
     render() {
         return (
             <div className="notification">
-                <span class="notification-content">{this.props.content}</span>
+                <span className="notification-content">{this.props.content}</span>
             </div>
         )
     }
