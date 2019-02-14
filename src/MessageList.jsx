@@ -13,7 +13,7 @@ class MessageList extends Component {
             }
 
             if (message.type === "incomingNotification"){
-               return <Notification content={message.content} />;
+               return <Notification key={message.id.toString()} content={message.content} />;
             }
         });
             

@@ -74,6 +74,7 @@ wss.on('connection', (ws) => {
         break;
 
       case "postNotification":
+        data.id = uuidv1();
         data.type = "incomingNotification";
         data = JSON.stringify(data);
         console.log(data);
