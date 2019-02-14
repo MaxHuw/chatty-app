@@ -5,7 +5,7 @@ Chatty App is a simple chat application that allows users to comunicate via text
 
 ## Final Product
 
-![Screenshot of Chatty App]()
+![Screenshot of Chatty App](https://github.com/MaxHuw/chatty-app/blob/master/images/chatty-app.png?raw=true)
 
 ## Dependencies
 
