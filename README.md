@@ -7,6 +7,12 @@ Chatty App is a simple chat application that allows users to comunicate via text
 
 ![Screenshot of Chatty App](https://github.com/MaxHuw/chatty-app/blob/master/images/chatty-app.png?raw=true)
 
+## Stack
+
+* Webpack with Babel, JSX, ES6, webpack dev server (comes with boilerplate)
+* WebSockets using Node package ws on the server-side, and native WebSocket on client side
+* ReactJS
+
 ## Dependencies
 
   * devDependencies
