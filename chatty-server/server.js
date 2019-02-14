@@ -28,14 +28,32 @@ wss.on('connection', (ws) => {
   ws.on('message', function incoming(data){
     console.log(data);
     data = JSON.parse(data);
-    data.id = uuidv1();
-    data = JSON.stringify(data);
-    console.log(data);
 
-    wss.clients.forEach(client => {
-      client.send(data);
-      console.log("Message sent to client.");
-    })
+    switch(data.type){
+      case "postMessage":
+        data.id = uuidv1();
+        data.type = "incomingMessage";
+        data = JSON.stringify(data);
+        console.log(data);
+    
+        wss.clients.forEach(client => {
+          client.send(data);
+          console.log("Message sent to clients.");
+        })
+        break;
+
+      case "postNotification":
+        data.type = "incomingNotification";
+        data = JSON.stringify(data);
+        console.log(data);
+
+        wss.clients.forEach(client => {
+          client.send(data);
+          console.log("Notification sent to clients.");
+        })
+        break;
+    };
+
   })
 });
 

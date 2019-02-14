@@ -18,7 +18,7 @@ class App extends Component {
 
     this.addNewMessage = this.addNewMessage.bind(this);
     this.submitMessage = this.submitMessage.bind(this);
-
+    this.submitNotification = this.submitNotification.bind(this);
 
   }
 
@@ -31,21 +31,21 @@ class App extends Component {
     }
 
     this.ws.onmessage = (event) => {
-      console.log("Message recieved from server.")
       const data = JSON.parse(event.data);
 
       switch(data.type){
         case "incomingMessage":
+          console.log("Message recieved from server.")
           this.addNewMessage(data);
           break;
         case "incomingNotification":
-        //Something
+          console.log("Notification recieved from server.")
+          this.addNewMessage(data);
           break;
         default:
           throw new Error("Unknown even type: " + data.type);
       }
     }
-
   }
 
   submitNotification(newNotification){
@@ -65,6 +65,7 @@ class App extends Component {
     console.log(newMessageData);
     const newMessageArray = [...oldMessageArray, newMessageData];
     this.setState({messages: newMessageArray });
+    console.log(this.state.messages);
 
   }
   

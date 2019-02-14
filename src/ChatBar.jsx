@@ -28,14 +28,14 @@ class ChatBar extends Component {
         if (event.key === 'Enter' ) {
 
             if (event.target.name === "username"){
-                this.updateUserName(event.target.value);
-
+                
                 const newNotification = {
                     type: "postNotification",
-                    content: event.target.value
+                    content: `User ${this.state.username} has changed their name to ${event.target.value}`
                 }
 
                 this.props.submitNotification(newNotification);
+                this.updateUserName(event.target.value);
             }
 
             if (event.target.name === "message"){
